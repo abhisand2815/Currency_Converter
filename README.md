@@ -1,8 +1,8 @@
 <div align="center">
 
-# 💱 Global Currency Exchange Management System
+# Global Currency Exchange Management System
 
-**A professional Java AWT desktop application for real-time currency conversion, trend analysis, and multi-currency comparison — powered by live exchange-rate APIs.**
+**A Java AWT desktop application for real-time currency conversion, trend analysis, and multi-currency comparison — powered by live exchange-rate APIs.**
 
 [![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Maven](https://img.shields.io/badge/Maven-3.8%2B-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
@@ -14,59 +14,30 @@
 
 ---
 
-## 📌 Overview
+## Overview
 
 The **Global Currency Exchange Management System** is a feature-rich desktop application built entirely with **Java AWT** (no Swing, no JavaFX). It provides real-time currency conversion across **170+ ISO 4217 currencies**, interactive trend charts via JFreeChart, and a multi-currency comparison panel — all backed by live data from the ExchangeRate-API.
 
-Designed with **MVC architecture**, clean package separation, and off-EDT threading, this project demonstrates core Java engineering concepts including REST API integration, JSON parsing, multithreading, data visualization, and graceful offline fallback.
+All HTTP calls run on background threads with results posted back to the AWT EDT via `EventQueue.invokeLater()`, ensuring the UI never blocks. When offline, the app falls back gracefully to the last fetched in-memory rates without crashing.
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 💹 **Live Conversion** | Real-time rates from ExchangeRate-API for 170+ currencies |
-| 🔄 **Instant Swap** | Flip From/To currencies with a single click |
-| 📈 **Trend Charts** | 7-day exchange rate trend visualization using JFreeChart |
-| 📊 **Multi-Currency Compare** | Side-by-side rate comparison for up to 5 currencies |
-| ⏱️ **Auto-Refresh** | Configurable background rate refresh (60s intervals) |
-| 📡 **Status Bar** | Live internet + API connectivity indicators |
-| 🔌 **Offline Mode** | Graceful fallback to last fetched in-memory rates |
-| 🎯 **Precision Control** | Configurable decimal precision (2–6 decimal places) |
+| **Live Conversion** | Real-time rates from ExchangeRate-API for 170+ currencies |
+| **Instant Swap** | Flip From/To currencies with a single click |
+| **Trend Charts** | 7-day exchange rate trend visualization using JFreeChart |
+| **Multi-Currency Compare** | Side-by-side rate comparison for up to 5 currencies |
+| **Auto-Refresh** | Configurable background rate refresh every 60 seconds |
+| **Status Bar** | Live internet and API connectivity indicators |
+| **Offline Mode** | Graceful fallback to last fetched in-memory rates |
+| **Precision Control** | Configurable decimal precision from 2 to 6 decimal places |
 
 ---
 
-## 🏗️ Architecture
-
-This project follows a strict **MVC (Model-View-Controller)** pattern with no business logic inside any AWT panel class.
-
-```
-com.currencyapp/
-├── ui/              ← AWT panels and main window (View)
-│   ├── MainWindow.java
-│   ├── ConverterPanel.java
-│   ├── ChartPanel.java
-│   └── ComparePanel.java
-│
-├── service/         ← API calls, rate calculation (Controller)
-│   └── ExchangeRateService.java
-│
-├── model/           ← Data structures (Model)
-│   ├── Currency.java
-│   ├── ConversionResult.java
-│   └── RateSnapshot.java
-│
-└── util/            ← JSON parsing, number formatting
-    ├── JsonParser.java
-    └── NumberFormatter.java
-```
-
-> **Threading rule:** All HTTP calls run on a background thread. Results post back to the AWT EDT via `EventQueue.invokeLater()`. The UI never blocks.
-
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -81,27 +52,25 @@ com.currencyapp/
 
 ---
 
-## 📋 Prerequisites
-
-Before running the project, ensure the following are installed:
+## Prerequisites
 
 - **Java JDK 17+** — [Download here](https://adoptium.net/)
 - **Apache Maven 3.8+** — [Download here](https://maven.apache.org/download.cgi)
 - A free API key from [exchangerate-api.com](https://www.exchangerate-api.com/)
-- A machine with a **display** (AWT requires a graphical environment — not a headless server)
+- A machine with a display (AWT requires a graphical environment — not a headless server)
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
-### 1. Clone the repository
+**1. Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/currency-converter.git
+git clone https://github.com/abhisand2815/currency-converter.git
 cd currency-converter
 ```
 
-### 2. Add your API key
+**2. Add your API key**
 
 Open `src/main/resources/config.properties` and replace the placeholder:
 
@@ -110,9 +79,9 @@ api.url=https://api.exchangerate-api.com/v4/latest/
 api.key=YOUR_REAL_API_KEY_HERE
 ```
 
-Get a free key (no credit card required) at [exchangerate-api.com](https://www.exchangerate-api.com/).
+Get a free key at [exchangerate-api.com](https://www.exchangerate-api.com/) — no credit card required.
 
-### 3. Build the project
+**3. Build the project**
 
 ```bash
 mvn clean package -DskipTests
@@ -120,60 +89,38 @@ mvn clean package -DskipTests
 
 This produces a fat JAR in `target/` with all dependencies bundled.
 
-### 4. Run the application
+**4. Run the application**
 
 ```bash
-# Option A — recommended
+# Recommended
 java -jar target/currency-converter-1.0-SNAPSHOT-jar-with-dependencies.jar
 
-# Option B — using the run script
+# Using the run script
 chmod +x run.sh
 ./run.sh
 ```
 
 ---
 
-## 📁 Project Structure
-
-```
-currency-converter/
-├── pom.xml                        ← Maven build configuration
-├── run.sh                         ← Launch script
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com/currencyapp/   ← All Java source files
-│       └── resources/
-│           ├── currencies.json    ← 170+ ISO 4217 currency definitions
-│           └── config.properties  ← API key and base URL
-├── target/
-│   └── currency-converter-1.0-SNAPSHOT-jar-with-dependencies.jar
-└── lib/                           ← Optional local JAR fallback
-    ├── gson-2.10.1.jar
-    └── jfreechart-1.5.4.jar
-```
-
----
-
-## 🖥️ Application Panels
+## Application Panels
 
 ### Converter Panel
-The main view. Select source and target currencies from searchable dropdowns, enter an amount, and hit **Convert**. The live rate label shows `1 FROM = X.XXXX TO` with a last-updated timestamp. Toggle **Auto-Refresh** to keep rates current automatically every 60 seconds.
+The main view. Select source and target currencies from searchable dropdowns, enter an amount, and click **Convert**. The live rate label shows `1 FROM = X.XXXX TO` with a last-updated timestamp. Toggle **Auto-Refresh** to keep rates current automatically every 60 seconds.
 
 ### Chart Panel
-Select any currency pair to render a **7-day trend line chart** via JFreeChart. Displays current rate, 7-day high, 7-day low, and percentage change over the period.
+Select any currency pair to render a 7-day trend line chart via JFreeChart. Displays the current rate, 7-day high, 7-day low, and percentage change over the period.
 
 ### Compare Panel
-Choose a base currency and up to **5 target currencies**. A live table shows each currency code, full name, current rate, and a directional indicator (▲▼). Hit **Refresh** to re-fetch all rates at once.
+Choose a base currency and up to 5 target currencies. A live table shows each currency code, full name, current rate, and a directional indicator. Hit **Refresh** to re-fetch all rates at once.
 
-### Status Bar (always visible)
-Shows real-time internet connectivity (green/red indicator) and API status (**Live** / **Offline**) with the last successful update timestamp.
+### Status Bar
+Always visible at the bottom. Shows real-time internet connectivity and API status (Live / Offline) with the last successful update timestamp.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
-All app settings are stored in `src/main/resources/config.properties`:
+All settings are loaded at runtime from `src/main/resources/config.properties`:
 
 ```properties
 # ExchangeRate-API Configuration
@@ -181,43 +128,43 @@ api.url=https://api.exchangerate-api.com/v4/latest/
 api.key=YOUR_API_KEY_HERE
 ```
 
-> The API key is **never hardcoded** in source files. It is always loaded at runtime from this config file.
+The API key is never hardcoded in source files. It is always read from this config file via `ClassLoader.getResourceAsStream()`.
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 | Problem | Likely Cause | Fix |
 |---|---|---|
 | `ClassNotFoundException` on launch | Wrong JAR used | Run the `-jar-with-dependencies.jar`, not the plain JAR |
-| `NullPointerException` on startup | `currencies.json` missing from JAR | Ensure it's in `src/main/resources/`, then rebuild |
+| `NullPointerException` on startup | `currencies.json` missing from JAR | Ensure it is in `src/main/resources/`, then rebuild |
 | No conversion result / API error | Dummy API key | Replace `api.key` in `config.properties` with a real key |
 | Chart panel blank | JFreeChart not bundled | Rebuild with `mvn clean package` |
-| `HeadlessException` | Running on a server without display | Run on a local desktop machine |
+| `HeadlessException` | No display available | Run on a local desktop machine, not a server |
 | `UnsupportedClassVersionError` | Java version mismatch | Ensure `java -version` shows 17+ |
 
 ---
 
-## 🔑 Key Engineering Concepts Demonstrated
+## Key Engineering Concepts Demonstrated
 
-- **OOP** — Encapsulation, abstraction, and inheritance across model/service/UI layers
-- **MVC Architecture** — Strict separation between data, logic, and presentation
+- **OOP** — Encapsulation, abstraction, and inheritance across model, service, and UI layers
+- **MVC Architecture** — Strict separation between data, logic, and presentation; no business logic inside any Panel class
 - **REST API Integration** — Live HTTP requests via `java.net.http.HttpClient`
 - **JSON Parsing** — Gson-based deserialization of API responses
 - **Multithreading** — Background API calls with EDT-safe UI updates via `EventQueue.invokeLater()`
-- **Data Visualization** — JFreeChart line charts for trend analysis
+- **Data Visualization** — JFreeChart line charts for 7-day trend analysis
 - **Offline Resilience** — In-memory rate caching with graceful degradation on network failure
 - **Resource Bundling** — `ClassLoader.getResourceAsStream()` for JAR-safe resource loading
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ---
 
-## 👤 Author
+## Author
 
 **Abhimanyu**
 B.Tech Computer Science & Engineering — VIT Bhopal University
@@ -227,5 +174,5 @@ B.Tech Computer Science & Engineering — VIT Bhopal University
 ---
 
 <div align="center">
-  <sub>Built with Java AWT · Powered by ExchangeRate-API · Visualized with JFreeChart</sub>
+  <sub>Built with Java AWT &nbsp;&middot;&nbsp; Powered by ExchangeRate-API &nbsp;&middot;&nbsp; Visualized with JFreeChart</sub>
 </div>
