@@ -8,7 +8,7 @@
 [![Maven](https://img.shields.io/badge/Maven-3.8%2B-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
 [![JFreeChart](https://img.shields.io/badge/JFreeChart-1.5.4-4A90D9?style=for-the-badge)](http://www.jfree.org/jfreechart/)
 [![Gson](https://img.shields.io/badge/Gson-2.10.1-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://github.com/google/gson)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
 
 </div>
 
@@ -155,12 +155,6 @@ The API key is never hardcoded in source files. It is always read from this conf
 - **Data Visualization** — JFreeChart line charts for 7-day trend analysis
 - **Offline Resilience** — In-memory rate caching with graceful degradation on network failure
 - **Resource Bundling** — `ClassLoader.getResourceAsStream()` for JAR-safe resource loading
-
----
-
-## License
-
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ---
 
